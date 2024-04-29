@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"encoding/binary"
 	"errors"
+	"github.com/guihai/ghtcpgs/conf"
 	"github.com/guihai/ghtcpgs/impl"
-	"github.com/guihai/ghtcpgs/utils"
 )
 
 type DataPack struct {
@@ -80,7 +80,7 @@ func (s *DataPack) UnPack(buf []byte) (impl.IMessage, error) {
 		return nil, err
 	}
 
-	if utils.GO.MaxPacketSize > 0 && dataLen > utils.GO.MaxPacketSize {
+	if conf.GO.MaxPacketSize > 0 && dataLen > conf.GO.MaxPacketSize {
 		return nil, errors.New("消息太长。。。。超过限度")
 	}
 

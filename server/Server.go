@@ -2,8 +2,8 @@ package server
 
 import (
 	"fmt"
+	"github.com/guihai/ghtcpgs/conf"
 	"github.com/guihai/ghtcpgs/impl"
-	"github.com/guihai/ghtcpgs/utils"
 	"net"
 )
 
@@ -28,15 +28,17 @@ type Server struct {
 
 	// 关闭钩子
 	OnConnStop func(conn impl.IConn)
+
+	// 全局运行配置
 }
 
 // 构造器
 func NewServer() *Server {
 	return &Server{
-		Name:      utils.GO.Name,
-		IP:        utils.GO.IP,
-		Port:      utils.GO.Port,
-		Tcp:       utils.GO.Tcp,
+		Name:      conf.GO.Name,
+		IP:        conf.GO.IP,
+		Port:      conf.GO.Port,
+		Tcp:       conf.GO.Tcp,
 		MsgHandle: NewMsgHandle(),
 		ConnMan:   NewConnManager(), // 链接管理器
 	}
@@ -64,7 +66,7 @@ func (s *Server) Start() {
 
 		// 监听创建成功，开启循环接收 tcp链接
 		fmt.Printf("====%s==== 服务已启动 \n", s.Name)
-		fmt.Printf("启动端口%s,服务协议%s,版本号%s \n", s.Port, s.Tcp, utils.GO.Version)
+		fmt.Printf("启动端口%s,服务协议%s,版本号%s \n", s.Port, s.Tcp, conf.GO.Version)
 
 		var cid uint32
 		cid = 0
@@ -79,7 +81,7 @@ func (s *Server) Start() {
 			}
 
 			// 验证链接个数
-			if s.ConnMan.Len() >= int(utils.GO.MaxConn) {
+			if s.ConnMan.Len() >= int(conf.GO.MaxConn) {
 
 				// 链接数超了不能 加入
 				con.Close()

@@ -3,8 +3,8 @@ package server
 import (
 	"errors"
 	"fmt"
+	"github.com/guihai/ghtcpgs/conf"
 	"github.com/guihai/ghtcpgs/impl"
-	"github.com/guihai/ghtcpgs/utils"
 	"io"
 	"net"
 	"sync"
@@ -50,8 +50,8 @@ func NewConn(tcpS impl.IServer, cn *net.TCPConn, cid uint32, msgHandle impl.IMsg
 
 		exitChan: make(chan bool, 1), // 建立缓存管道
 
-		writerChan:     make(chan []byte),                         // 返回写数据通道
-		writerBuffChan: make(chan []byte, utils.GO.MaxPacketSize), // 返回写数据通道
+		writerChan:     make(chan []byte),                        // 返回写数据通道
+		writerBuffChan: make(chan []byte, conf.GO.MaxPacketSize), // 返回写数据通道
 
 		MsgHandle: msgHandle,
 

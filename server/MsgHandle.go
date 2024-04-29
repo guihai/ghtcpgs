@@ -2,8 +2,8 @@ package server
 
 import (
 	"fmt"
+	"github.com/guihai/ghtcpgs/conf"
 	"github.com/guihai/ghtcpgs/impl"
-	"github.com/guihai/ghtcpgs/utils"
 )
 
 type MsgHandle struct {
@@ -24,9 +24,9 @@ func NewMsgHandle() *MsgHandle {
 	// 必须初始化 map
 	return &MsgHandle{
 		Apis:         make(map[uint32]impl.IRouter),
-		WorkPoolSize: utils.GO.WorkPoolSize,
+		WorkPoolSize: conf.GO.WorkPoolSize,
 		//一个worker对应一个queue
-		TaskQueue: make([]chan impl.IRequest, utils.GO.WorkPoolSize),
+		TaskQueue: make([]chan impl.IRequest, conf.GO.WorkPoolSize),
 
 		PoolOn: false, // 协程池未启动
 	}
@@ -71,7 +71,7 @@ func (s *MsgHandle) StartWorkerPool() {
 	for i := 0; i < int(s.WorkPoolSize); i++ {
 
 		// 初始化任务队列的管道
-		s.TaskQueue[i] = make(chan impl.IRequest, utils.GO.TaskQueueMaxSize)
+		s.TaskQueue[i] = make(chan impl.IRequest, conf.GO.TaskQueueMaxSize)
 
 		// 启动一个工作单位
 		go s.StartWorker(i, s.TaskQueue[i])
