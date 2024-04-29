@@ -1,4 +1,4 @@
-package api
+package ghtcpgs
 
 import (
 	"github.com/guihai/ghtcpgs/conf"
