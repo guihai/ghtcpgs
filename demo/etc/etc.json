@@ -1,0 +1,9 @@
+{
+  "Name": "tvl",
+  "IP": "0.0.0.0",
+  "Port":  "8991",
+  "Tcp":           "tcp4",
+  "MaxConn":       101,
+  "MaxPacketSize": 2048,
+  "Version":       "v0.1"
+}
